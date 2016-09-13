@@ -285,7 +285,7 @@ class Query extends \Expresser\Support\Query {
     return $this;
   }
 
-  public function __call($method, array $parameters) {
+  public function __call($method, $parameters) {
 
     if (str_is($method, 'public')) {
 

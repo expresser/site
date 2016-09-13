@@ -21,6 +21,16 @@ class Query extends \Expresser\Support\Query {
     return $this->sites($ids)->get();
   }
 
+  public function findByDomain($domain) {
+
+    return $this->search($domain, ['domain'])->first();
+  }
+
+  public function findByPath($path) {
+
+    return $this->search($path, ['path'])->first();
+  }
+
   public function first() {
 
     return $this->limit(1)->get()->first();
@@ -250,7 +260,7 @@ class Query extends \Expresser\Support\Query {
   public function search($terms, array $columns = []) {
 
     $this->search = $terms;
-    $this->date_query = $$columns;
+    $this->search_columns = $columns;
 
     return $this;
   }

@@ -275,11 +275,13 @@ class Query extends \Expresser\Support\Query {
     return $this;
   }
 
-  public function __call($method, $parameters) {
+  public function __call($method, array $parameters) {
 
     if (str_is($method, 'public')) {
 
-      list($isPublic) = $parameters;
+      $isPublic = array_shift($parameters);
+
+      $isPublic = is_null($isPublic) ?: $isPublic;
 
       if (is_bool($isPublic)) {
 

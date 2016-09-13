@@ -189,20 +189,6 @@ class Query extends \Expresser\Support\Query {
     return $this;
   }
 
-  public function public($isPublic = true) {
-
-    if (is_bool($isPublic)) {
-
-      $this->public = $isPublic ? '1' : '0';
-    }
-    else {
-
-      throw new InvalidArgumentException;
-    }
-
-    return $this;
-  }
-
   public function archive($isArchive = true) {
 
     if (is_bool($isArchive)) {
@@ -287,5 +273,24 @@ class Query extends \Expresser\Support\Query {
   public function date() {
 
     return $this;
+  }
+
+  public function __call($method, $parameters) {
+
+    if (str_is($method, 'public')) {
+
+      list($isPublic) = $parameters;
+
+      if (is_bool($isPublic)) {
+
+        $this->public = $isPublic ? '1' : '0';
+      }
+      else {
+
+        throw new InvalidArgumentException;
+      }
+
+      return $this;
+    }
   }
 }

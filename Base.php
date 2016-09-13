@@ -9,7 +9,7 @@ abstract class Base extends \Expresser\Support\Model {
 
   public function __construct(WP_Site $site = null) {
 
-    $this->site = $site ?: new WP_Site;
+    $this->site = $site ?: new WP_Site((object)[]);
 
     parent::__construct($this->site->to_array());
   }

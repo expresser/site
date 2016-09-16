@@ -25,7 +25,7 @@ abstract class Base extends \Expresser\Support\Model {
 
   public function toggleToSite($siteId, Closure $callback, array $parameters = []) {
 
-    return static::switchToSite($this->ID, $siteId, $callback, $parameters);
+    return static::switchToSite($this->site_id, $siteId, $callback, $parameters);
   }
 
   public static function switchToSite($currentSiteId, $targetSiteId, Closure $callback, array $parameters = []) {

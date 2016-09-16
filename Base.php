@@ -23,18 +23,28 @@ abstract class Base extends \Expresser\Support\Model {
     return $query;
   }
 
-  public function toggleToSite($siteId, Closure $callback, array $parameters = []) {
+  public function toggleToSite(Base $site, Closure $callback, array $parameters = []) {
 
-    return static::switchToSite($this->ID, $siteId, $callback, $parameters);
+    return static::switchToSite($site, $this, $callback, $parameters);
   }
 
-  public static function switchToSite($currentSiteId, $targetSiteId, Closure $callback, array $parameters = []) {
+  public function __get($key) {
 
-    switch_to_blog($targetSiteId);
+    if (is_null($value = parent::__get($key))) {
+
+      $value = $this->site->$key;
+    }
+
+    return $value;
+  }
+
+  public static function switchToSite(Base $targetSite, Base $currentSite, Closure $callback, array $parameters = []) {
+
+    switch_to_blog($targetSite->ID);
 
     $out = call_user_func_array($callback, $parameters);
 
-    switch_to_blog($currentSiteId);
+    switch_to_blog($currentSite->ID);
 
     return $out;
   }

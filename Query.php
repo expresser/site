@@ -13,22 +13,43 @@ class Query extends \Expresser\Support\Query {
 
   public function find($id) {
 
-    return $this->site($id)->first();
+    $site = $this->site($id)->first();
+
+    if (is_null($site)) {
+
+      throw new SiteNotFoundException;
+    }
+
+    return $site;
+  }
+
+  public function findByDomain($domain) {
+
+    $site = $this->search($domain, ['domain'])->first();
+
+    if (is_null($site)) {
+
+      throw new SiteNotFoundException;
+    }
+
+    return $site;
+  }
+
+  public function findByPath($path) {
+
+    $site = $this->search($path, ['path'])->first();
+
+    if (is_null($site)) {
+
+      throw new SiteNotFoundException;
+    }
+
+    return $site;
   }
 
   public function findAll(array $ids) {
 
     return $this->sites($ids)->get();
-  }
-
-  public function findByDomain($domain) {
-
-    return $this->search($domain, ['domain'])->first();
-  }
-
-  public function findByPath($path) {
-
-    return $this->search($path, ['path'])->first();
   }
 
   public function first() {

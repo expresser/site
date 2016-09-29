@@ -40,11 +40,13 @@ abstract class Base extends \Expresser\Support\Model {
 
   public static function switchToSite(Base $targetSite, Base $currentSite, Closure $callback, array $parameters = []) {
 
-    switch_to_blog($targetSite->site_id);
+    array_unshift($parameters, $targetSite);
+
+    switch_to_blog($targetSite->blog_id);
 
     $out = call_user_func_array($callback, $parameters);
 
-    switch_to_blog($currentSite->site_id);
+    switch_to_blog($currentSite->blog_id);
 
     return $out;
   }

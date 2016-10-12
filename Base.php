@@ -16,6 +16,16 @@ abstract class Base extends \Expresser\Support\Model {
     parent::__construct($this->site->to_array());
   }
 
+  public function getBlogIdAttribute($value) {
+
+    return (int)$value;
+  }
+
+  public function getSiteIdAttribute($value) {
+
+    return (int)$value;
+  }
+
   public function newQuery() {
 
     $query = (new Query(new WP_Site_Query))->setModel($this);
@@ -23,19 +33,31 @@ abstract class Base extends \Expresser\Support\Model {
     return $query;
   }
 
-  public function toggleToSite($siteId, Closure $callback, array $parameters = []) {
+  public function toggle(Closure $callback, array $parameters = []) {
 
-    return static::switchToSite($this->site_id, $siteId, $callback, $parameters);
+    return static::toggleSite($this, $callback, $parameters);
   }
 
-  public static function switchToSite($currentSiteId, $targetSiteId, Closure $callback, array $parameters = []) {
+  public function __get($key) {
 
-    switch_to_blog($targetSiteId);
+    if (is_null($value = parent::__get($key))) {
 
-    $out = call_user_func_array($callback, $parameters);
+      $value = $this->site->$key;
+    }
 
-    switch_to_blog($currentSiteId);
+    return $value;
+  }
 
-    return $out;
+  public static function toggleSite(Base $site, Closure $callback, array $parameters = []) {
+
+    array_unshift($parameters, $site);
+
+    switch_to_blog($site->blog_id);
+
+    $result = call_user_func_array($callback, $parameters);
+
+    restore_current_blog();
+
+    return $result;
   }
 }

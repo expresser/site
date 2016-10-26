@@ -1,63 +1,63 @@
-<?php namespace Expresser\Site;
+<?php
+
+namespace Expresser\Site;
 
 use Closure;
-
 use WP_Site;
 use WP_Site_Query;
 
-abstract class Base extends \Expresser\Support\Model {
+abstract class Base extends \Expresser\Support\Model
+{
+    protected $site;
 
-  protected $site;
+    public function __construct(WP_Site $site = null)
+    {
+        $this->site = $site ?: new WP_Site((object) []);
 
-  public function __construct(WP_Site $site = null) {
-
-    $this->site = $site ?: new WP_Site((object)[]);
-
-    parent::__construct($this->site->to_array());
-  }
-
-  public function getBlogIdAttribute($value) {
-
-    return (int)$value;
-  }
-
-  public function getSiteIdAttribute($value) {
-
-    return (int)$value;
-  }
-
-  public function newQuery() {
-
-    $query = (new Query(new WP_Site_Query))->setModel($this);
-
-    return $query;
-  }
-
-  public function toggle(Closure $callback, array $parameters = []) {
-
-    return static::toggleSite($this, $callback, $parameters);
-  }
-
-  public function __get($key) {
-
-    if (is_null($value = parent::__get($key))) {
-
-      $value = $this->site->$key;
+        parent::__construct($this->site->to_array());
     }
 
-    return $value;
-  }
+    public function getBlogIdAttribute($value)
+    {
+        return (int) $value;
+    }
 
-  public static function toggleSite(Base $site, Closure $callback, array $parameters = []) {
+    public function getSiteIdAttribute($value)
+    {
+        return (int) $value;
+    }
 
-    array_unshift($parameters, $site);
+    public function newQuery()
+    {
+        $query = (new Query(new WP_Site_Query()))->setModel($this);
 
-    switch_to_blog($site->blog_id);
+        return $query;
+    }
 
-    $result = call_user_func_array($callback, $parameters);
+    public function toggle(Closure $callback, array $parameters = [])
+    {
+        return static::toggleSite($this, $callback, $parameters);
+    }
 
-    restore_current_blog();
+    public function __get($key)
+    {
+        if (is_null($value = parent::__get($key))) {
+            $value = $this->site->$key;
+        }
 
-    return $result;
-  }
+        return $value;
+    }
+
+    public static function toggleSite(Base $site, Closure $callback, array $parameters = [])
+    {
+        array_unshift($parameters, $site);
+
+        switch_to_blog($site->blog_id);
+
+        $result = call_user_func_array($callback, $parameters);
+
+        restore_current_blog();
+
+        return $result;
+    }
 }

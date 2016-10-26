@@ -1,9 +1,11 @@
-<?php namespace Expresser\Site;
+<?php
 
-class CurrentSite extends Base {
+namespace Expresser\Site;
 
-  public function newQuery() {
-
-    return parent::newQuery()->site(get_current_blog_id());
-  }
+class CurrentSite extends Base
+{
+    public function newQuery()
+    {
+        return parent::newQuery()->site(get_current_blog_id());
+    }
 }

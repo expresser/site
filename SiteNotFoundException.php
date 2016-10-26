@@ -1,3 +1,7 @@
-<?php namespace Expresser\Site;
+<?php
 
-class SiteNotFoundException extends \Exception {}
+namespace Expresser\Site;
+
+class SiteNotFoundException extends \Exception
+{
+}

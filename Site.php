@@ -1,3 +1,7 @@
-<?php namespace Expresser\Site;
+<?php
 
-class Site extends Base {}
+namespace Expresser\Site;
+
+class Site extends Base
+{
+}

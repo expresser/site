@@ -74,19 +74,15 @@ class Query extends \Expresser\Support\Query
     public function sites(array $ids, $operator = 'IN')
     {
         switch ($operator) {
-
-      case 'IN':
-
-        $this->site__in = $ids; break;
-
-      case 'NOT IN':
-
-        $this->site__not_in = $ids; break;
-
-      default:
-
-        throw new InvalidArgumentException();
-    }
+            case 'IN':
+                $this->site__in = $ids;
+                break;
+            case 'NOT IN':
+                $this->site__not_in = $ids;
+                break;
+            default:
+                throw new InvalidArgumentException();
+        }
 
         return $this;
     }
@@ -127,19 +123,15 @@ class Query extends \Expresser\Support\Query
     public function networks(array $ids, $operator = 'IN')
     {
         switch ($operator) {
-
-      case 'IN':
-
-        $this->network__in = $ids; break;
-
-      case 'NOT IN':
-
-        $this->network__not_in = $ids; break;
-
-      default:
-
-        throw new InvalidArgumentException();
-    }
+            case 'IN':
+                $this->network__in = $ids;
+                break;
+            case 'NOT IN':
+                $this->network__not_in = $ids;
+                break;
+            default:
+                throw new InvalidArgumentException();
+        }
 
         return $this;
     }
@@ -158,19 +150,15 @@ class Query extends \Expresser\Support\Query
     public function domains(array $domains, $operator = 'IN')
     {
         switch ($operator) {
-
-      case 'IN':
-
-        $this->domain__in = $domains; break;
-
-      case 'NOT IN':
-
-        $this->domain__not_in = $domains; break;
-
-      default:
-
-        throw new InvalidArgumentException();
-    }
+            case 'IN':
+                $this->domain__in = $domains;
+                break;
+            case 'NOT IN':
+                $this->domain__not_in = $domains;
+                break;
+            default:
+                throw new InvalidArgumentException();
+        }
 
         return $this;
     }
@@ -189,19 +177,15 @@ class Query extends \Expresser\Support\Query
     public function paths(array $paths, $operator = 'IN')
     {
         switch ($operator) {
-
-      case 'IN':
-
-        $this->path__in = $paths; break;
-
-      case 'NOT IN':
-
-        $this->path__not_in = $paths; break;
-
-      default:
-
-        throw new InvalidArgumentException();
-    }
+            case 'IN':
+                $this->path__in = $paths;
+                break;
+            case 'NOT IN':
+                $this->path__not_in = $paths;
+                break;
+            default:
+                throw new InvalidArgumentException();
+        }
 
         return $this;
     }
@@ -271,11 +255,11 @@ class Query extends \Expresser\Support\Query
         return $this;
     }
 
-  // TODO: Date Query implementation
-  public function date()
-  {
-      return $this;
-  }
+    // TODO: Date Query implementation
+    public function date()
+    {
+        return $this;
+    }
 
     public function __call($method, array $parameters)
     {

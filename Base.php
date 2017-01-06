@@ -3,10 +3,11 @@
 namespace Expresser\Site;
 
 use Closure;
+use Expresser\Support\Model;
 use WP_Site;
 use WP_Site_Query;
 
-abstract class Base extends \Expresser\Support\Model
+abstract class Base extends Model
 {
     protected $site;
 
@@ -29,7 +30,7 @@ abstract class Base extends \Expresser\Support\Model
 
     public function newQuery()
     {
-        $query = (new Query(new WP_Site_Query()))->setModel($this);
+        $query = (new Builder(new Query(new WP_Site_Query)))->setModel($this);
 
         return $query;
     }

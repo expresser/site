@@ -2,6 +2,8 @@
 
 namespace Expresser\Site;
 
-class SiteNotFoundException extends \Exception
+use Exception;
+
+class SiteNotFoundException extends Exception
 {
 }

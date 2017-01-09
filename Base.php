@@ -18,21 +18,21 @@ abstract class Base extends Model
         parent::__construct($this->site->to_array());
     }
 
-    public function getBlogIdAttribute($value)
-    {
-        return (int) $value;
-    }
-
-    public function getSiteIdAttribute($value)
-    {
-        return (int) $value;
-    }
-
     public function newQuery()
     {
         $query = (new Builder(new Query(new WP_Site_Query)))->setModel($this);
 
         return $query;
+    }
+
+    public function getBlogIdAttribute($value)
+    {
+        return (int)$value;
+    }
+
+    public function getSiteIdAttribute($value)
+    {
+        return (int)$value;
     }
 
     public function toggle(Closure $callback, array $parameters = [])

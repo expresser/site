@@ -13,10 +13,17 @@ class Query extends BaseQuery
         parent::__construct($query);
     }
 
+    public function execute()
+    {
+        $sites = $this->query->get_sites();
+
+        return $sites;
+    }
+
     public function site($id)
     {
         if (is_int($id)) {
-            $this->ID = $id;
+            $this->setQueryVar('ID', $id);
         } else {
             throw new InvalidArgumentException();
         }
@@ -28,10 +35,10 @@ class Query extends BaseQuery
     {
         switch ($operator) {
             case 'IN':
-                $this->site__in = $ids;
+                $this->setQueryVar('site__in', $ids);
                 break;
             case 'NOT IN':
-                $this->site__not_in = $ids;
+                $this->setQueryVar('site__not_in', $ids);
                 break;
             default:
                 throw new InvalidArgumentException();
@@ -42,22 +49,27 @@ class Query extends BaseQuery
 
     public function number($number)
     {
-        $this->number = $number;
+        $this->setQueryVar('number', $number);
 
         return $this;
     }
 
+    public function limit($limit)
+    {
+        return $this->number($limit);
+    }
+
     public function offset($offset)
     {
-        $this->offset = $offset;
+        $this->setQueryVar('offset', $offset);
 
         return $this;
     }
 
     public function orderBy($orderby = 'id', $order = 'ASC')
     {
-        $this->orderby = $orderby;
-        $this->order = $order;
+        $this->setQueryVar('orderby', $orderby);
+        $this->setQueryVar('order', $order);
 
         return $this;
     }
@@ -65,7 +77,7 @@ class Query extends BaseQuery
     public function network($id)
     {
         if (is_int($id)) {
-            $this->network_id = $id;
+            $this->setQueryVar('network_id', $id);
         } else {
             throw new InvalidArgumentException();
         }
@@ -77,10 +89,10 @@ class Query extends BaseQuery
     {
         switch ($operator) {
             case 'IN':
-                $this->network__in = $ids;
+                $this->setQueryVar('network__in', $ids);
                 break;
             case 'NOT IN':
-                $this->network__not_in = $ids;
+                $this->setQueryVar('network__not_in', $ids);
                 break;
             default:
                 throw new InvalidArgumentException();
@@ -92,7 +104,7 @@ class Query extends BaseQuery
     public function domain($domain)
     {
         if (is_string($domain)) {
-            $this->domain = $domain;
+            $this->setQueryVar('domain', $domain);
         } else {
             throw new InvalidArgumentException();
         }
@@ -104,10 +116,10 @@ class Query extends BaseQuery
     {
         switch ($operator) {
             case 'IN':
-                $this->domain__in = $domains;
+                $this->setQueryVar('domain__in', $domains);
                 break;
             case 'NOT IN':
-                $this->domain__not_in = $domains;
+                $this->setQueryVar('domain__not_in', $domains);
                 break;
             default:
                 throw new InvalidArgumentException();
@@ -119,7 +131,7 @@ class Query extends BaseQuery
     public function path($path)
     {
         if (is_string($path)) {
-            $this->path = $path;
+            $this->setQueryVar('path', $path);
         } else {
             throw new InvalidArgumentException();
         }
@@ -131,10 +143,10 @@ class Query extends BaseQuery
     {
         switch ($operator) {
             case 'IN':
-                $this->path__in = $paths;
+                $this->setQueryVar('path__in', $paths);
                 break;
             case 'NOT IN':
-                $this->path__not_in = $paths;
+                $this->setQueryVar('path__not_in', $paths);
                 break;
             default:
                 throw new InvalidArgumentException();
@@ -146,7 +158,7 @@ class Query extends BaseQuery
     public function archive($isArchive = true)
     {
         if (is_bool($isArchive)) {
-            $this->archive = $isArchive ? '1' : '0';
+            $this->setQueryVar('archive', ($isArchive ? '1' : '0'));
         } else {
             throw new InvalidArgumentException();
         }
@@ -156,8 +168,8 @@ class Query extends BaseQuery
 
     public function mature($isMature = true)
     {
-        if (is_bool($isSpam)) {
-            $this->spam = $isSpam ? '1' : '0';
+        if (is_bool($isMature)) {
+            $this->setQueryVar('mature', ($isMature ? '1' : '0'));
         } else {
             throw new InvalidArgumentException();
         }
@@ -170,7 +182,7 @@ class Query extends BaseQuery
     public function spam($isSpam = true)
     {
         if (is_bool($isSpam)) {
-            $this->spam = $isSpam ? '1' : '0';
+            $this->setQueryVar('spam', ($isSpam ? '1' : '0'));
         } else {
             throw new InvalidArgumentException();
         }
@@ -181,7 +193,7 @@ class Query extends BaseQuery
     public function deleted($isDeleted = true)
     {
         if (is_bool($isDeleted)) {
-            $this->deleted = $isDeleted ? '1' : '0';
+            $this->setQueryVar('deleted', ($isDeleted ? '1' : '0'));
         } else {
             throw new InvalidArgumentException();
         }
@@ -191,8 +203,8 @@ class Query extends BaseQuery
 
     public function search($terms, array $columns = [])
     {
-        $this->search = $terms;
-        $this->search_columns = $columns;
+        $this->setQueryVar('search', $terms);
+        $this->setQueryVar('search_columns', $columns);
 
         return $this;
     }
@@ -200,7 +212,7 @@ class Query extends BaseQuery
     public function updateSiteCache($enable = false)
     {
         if (is_bool($enable)) {
-            $this->update_site_cache = $enable;
+            $this->setQueryVar('update_site_cache', $enable);
         } else {
             throw new InvalidArgumentException();
         }
@@ -222,17 +234,12 @@ class Query extends BaseQuery
             $isPublic = is_null($isPublic) ?: $isPublic;
 
             if (is_bool($isPublic)) {
-                $this->public = $isPublic ? '1' : '0';
+                $this->setQueryVar('public', ($isPublic ? '1' : '0'));
             } else {
                 throw new InvalidArgumentException();
             }
 
             return $this;
         }
-    }
-
-    public function limit($limit)
-    {
-        return $this->number($limit);
     }
 }
